@@ -25,12 +25,15 @@ export const config = {
     currentPlayersUpdateIntervalDelay: hoursToMs(
       Number(process.env.FEATURES_CURRENT_PLAYERS_UPDATE_INTERVAL_DELAY),
     ),
+    releaseDateUpdateIntervalDelay: Number(
+      process.env.FEATURES_RELEASE_DATE_UPDATE_INTERVAL_DELAY,
+    ),
     updateIntervalDelay: hoursToMs(Number(process.env.FEATURES_UPDATE_INTERVAL_DELAY)),
     iterationDelay: Number(process.env.FEATURES_ITERATION_DELAY),
   },
   runner: {
     delayFn: delay,
-    iterationDelay: Number(process.env.RUNNER_ITERATION_DELAY),
+    defaultIterationDelay: Number(process.env.RUNNER_ITERATION_DELAY),
     expectedErrorTypes: [AxiosError],
   },
   logger: {

@@ -2,17 +2,17 @@ export class Runner {
   #logger;
   #delayFn;
   #iterations;
-  #iterationDelay;
+  #defaultIterationDelay;
 
   constructor(
     logger,
     delayFn,
-    iterationDelay = 0,
+    defaultIterationDelay,
     iterations = Number.POSITIVE_INFINITY,
   ) {
     this.#logger = logger;
     this.#delayFn = delayFn;
-    this.#iterationDelay = iterationDelay;
+    this.#defaultIterationDelay = defaultIterationDelay;
     this.#iterations = iterations;
   }
 
