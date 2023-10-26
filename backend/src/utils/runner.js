@@ -25,26 +25,29 @@ export class Runner {
     await Promise.all(execPromises);
   }
 
-  async #runFuncForNumberOfIterations(func, expectedErrorTypes) {
+  async #runFuncForNumberOfIterations({ method, delay }, expectedErrorTypes) {
     // Counting down from a property of an object increases the time needed to perform
     // the first iterations in the loop compared to using a primitive. The tests of this
     // function rely on very short iteration times. If they are slowed down some tests are
     // failing unexpextedly. Don't refactor next two lines.
     let iterations = this.#iterations;
+
+    const iterationDelay = delay ? delay : this.#defaultIterationDelay;
+
     while (iterations--) {
       try {
-        await func();
+        await method();
       } catch (error) {
         const thrownErrorTypeIndex = expectedErrorTypes.findIndex(
           (expectedErrorType) => error instanceof expectedErrorType,
         );
         if (thrownErrorTypeIndex === -1) throw error;
         this.#logger.warn(
-          `runner catched an expected error from the function: '${func.name}', with the message: '${error.message}'`,
+          `runner catched an expected error from the function: '${method.name}', with the message: '${error.message}'`,
         );
       }
 
-      if (this.#iterationDelay > 0) await this.#delayFn(this.#iterationDelay);
+      if (iterationDelay > 0) await this.#delayFn(iterationDelay);
     }
   }
 }

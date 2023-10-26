@@ -64,15 +64,15 @@ async function main() {
   await webServer.start();
 
   const runnables = [
-    steamAppsAggregator.collectSteamApps,
-    gameIdentifier.tryViaSteamWeb,
-    gameIdentifier.tryViaSteamchartsWeb,
-    gameIdentifier.updateGamesWithoutDetails,
+    { method: steamAppsAggregator.collectSteamApps },
+    { method: gameIdentifier.tryViaSteamWeb },
+    { method: gameIdentifier.tryViaSteamchartsWeb },
+    { method: gameIdentifier.updateGamesWithoutDetails },
+    { method: playerHistoryAggregator.addPlayerHistoryFromSteamcharts },
+    { method: playerHistoryAggregator.addCurrentPlayers },
     /**
      * @todo batch delay must be performed by runner
      */
-    playerHistoryAggregator.addPlayerHistoryFromSteamcharts,
-    playerHistoryAggregator.addCurrentPlayers,
   ];
   const runner = new Runner(
     logger,
