@@ -33,7 +33,7 @@ export const config = {
   },
   runner: {
     delayFn: delay,
-    defaultIterationDelay: Number(process.env.RUNNER_DEFAULT_ITERATION_DELAY),
+    defaultIterationDelay: Number(process.env.FEATURES_ITERATION_DELAY),
     expectedErrorTypes: [AxiosError],
   },
   logger: {
