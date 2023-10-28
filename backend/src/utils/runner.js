@@ -1,19 +1,21 @@
+import cloneDeep from "lodash.clonedeep";
+
+const defaultOptions = {
+  delayFn: () => Promise.resolve(),
+  iterations: Number.POSITIVE_INFINITY,
+};
+
 export class Runner {
   #logger;
-  #delayFn;
-  #iterations;
-  #defaultIterationDelay;
+  #options;
 
-  constructor(
-    logger,
-    delayFn,
-    defaultIterationDelay,
-    iterations = Number.POSITIVE_INFINITY,
-  ) {
+  constructor(logger, options = defaultOptions()) {
     this.#logger = logger;
-    this.#delayFn = delayFn;
-    this.#defaultIterationDelay = defaultIterationDelay;
-    this.#iterations = iterations;
+
+    if (options.iterations === undefined) {
+      options.iterations = Number.POSITIVE_INFINITY;
+    }
+    this.#options = cloneDeep(options);
   }
 
   async run(executables, expectedErrorTypes) {
@@ -30,9 +32,9 @@ export class Runner {
     // the first iterations in the loop compared to using a primitive. The tests of this
     // function rely on very short iteration times. If they are slowed down some tests are
     // failing unexpextedly. Don't refactor next two lines.
-    let iterations = this.#iterations;
+    let iterations = this.#options.iterations;
 
-    const iterationDelay = delay ? delay : this.#defaultIterationDelay;
+    const iterationDelay = delay ? delay : this.#options.defaultIterationDelay;
 
     while (iterations--) {
       try {
@@ -47,7 +49,7 @@ export class Runner {
         );
       }
 
-      if (iterationDelay > 0) await this.#delayFn(iterationDelay);
+      if (iterationDelay > 0) await this.#options.delayFn(iterationDelay);
     }
   }
 }
