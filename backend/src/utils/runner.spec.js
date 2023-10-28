@@ -150,7 +150,7 @@ describe("runner.js", () => {
         );
       });
 
-      it("the expected errror is catched", async function () {
+      it("the expected errror is caught", async function () {
         await expectAsync(this.result).toBeResolved();
       });
 
