@@ -2,6 +2,7 @@ import cloneDeep from "lodash.clonedeep";
 
 const defaultOptions = {
   delayFn: () => Promise.resolve(),
+  defaultIterationDelay: 5000,
   iterations: Number.POSITIVE_INFINITY,
 };
 
@@ -14,6 +15,10 @@ export class Runner {
 
     if (options.iterations === undefined) {
       options.iterations = Number.POSITIVE_INFINITY;
+    }
+
+    if (options.defaultIterationDelay === undefined) {
+      options.defaultIterationDelay = 5000;
     }
     this.#options = cloneDeep(options);
   }

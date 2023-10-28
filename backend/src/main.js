@@ -74,11 +74,10 @@ async function main() {
      * @todo batch delay must be performed by runner
      */
   ];
-  const runner = new Runner(
-    logger,
-    config.runner.delayFn,
-    config.runner.defaultIterationDelay,
-  );
+  const runner = new Runner(logger, {
+    delayFn: config.runner.delayFn,
+    defaultIterationDelay: config.runner.defaultIterationDelay,
+  });
 
   try {
     /**
