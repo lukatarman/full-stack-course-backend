@@ -21,7 +21,7 @@ describe("runner.js", () => {
       describe("for two iterations", () => {
         it("and calls the function twice", async () => {
           const funcSpy = jasmine.createSpy("funcSpy");
-          const result = new Runner(createLoggerMock(), options(delayMock, 2)).run(
+          const result = new Runner(createLoggerMock(), options(delayMock, 2, 0)).run(
             [{ method: funcSpy }],
             [],
           );
@@ -166,10 +166,11 @@ describe("runner.js", () => {
   });
 });
 
-function options(delayFn = delayMock, iterations = 1) {
+function options(delayFn = delayMock, iterations = 1, defaultIterationDelay = undefined) {
   return {
     delayFn,
     iterations,
+    defaultIterationDelay,
   };
 }
 
