@@ -2,7 +2,7 @@ import { createLoggerMock } from "./logger.mock.js";
 import { Runner } from "./runner.js";
 import { delay } from "./time.utils.js";
 
-fdescribe("runner.js", () => {
+describe("runner.js", () => {
   describe(".run()", () => {
     describe("runs one function in a loop without a delay", () => {
       describe("for one iteration", () => {
