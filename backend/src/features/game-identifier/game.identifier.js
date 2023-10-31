@@ -36,11 +36,11 @@ export class GameIdentifier {
     this.#logger.debugc("identifying games via steam web");
 
     const steamApps = await this.#steamAppsRepository.getSteamWebUntriedFilteredSteamApps(
-      this.#options.batchSize,
+      this.#options.features.batchSize,
     );
     if (steamApps.length === 0) {
       this.#logger.debugc(
-        `no steam apps in db, retry in: ${this.#options.iterationDelay} ms`,
+        `no steam apps in db, retry in: ${this.#options.runner.defaultIterationDelay} ms`,
       );
       return;
     }
@@ -66,7 +66,7 @@ export class GameIdentifier {
       detailsPages.push(
         await this.#steamClient.getSteamAppHtmlDetailsPage(steamApp.appid),
       );
-      await delay(this.#options.unitDelay);
+      await delay(this.#options.features.unitDelay);
     }
     return detailsPages;
   }
@@ -87,11 +87,11 @@ export class GameIdentifier {
 
     const steamApps =
       await this.#steamAppsRepository.getSteamchartsUntriedFilteredSteamApps(
-        this.#options.batchSize,
+        this.#options.features.batchSize,
       );
     if (steamApps.length === 0) {
       this.#logger.debugc(
-        `no steam apps in db, retry in: ${this.#options.iterationDelay} ms`,
+        `no steam apps in db, retry in: ${this.#options.features.iterationDelay} ms`,
       );
       return;
     }
@@ -111,7 +111,7 @@ export class GameIdentifier {
       });
 
     for (let steamApp of updatedSteamApps) {
-      await delay(this.#options.unitDelay);
+      await delay(this.#options.features.unitDelay);
 
       try {
         const result = await this.#steamClient.getSteamchartsGameHtmlDetailsPage(
@@ -133,12 +133,14 @@ export class GameIdentifier {
     this.#logger.debugc("updating games without details");
 
     const games = await this.#gamesRepository.getGamesWithoutDetails(
-      this.#options.batchSize,
+      this.#options.features.batchSize,
     );
 
     if (games.length === 0) {
       this.#logger.debugc(
-        `no games without details in db, retrying in ${this.#options.iterationDelay}`,
+        `no games without details in db, retrying in ${
+          this.#options.features.iterationDelay
+        }`,
       );
       return;
     }
@@ -155,7 +157,7 @@ export class GameIdentifier {
 
     for (let game of games) {
       htmlDetailsPages.push(await this.#steamClient.getSteamDbHtmlDetailsPage(game.id));
-      await delay(this.#options.unitDelay);
+      await delay(this.#options.features.unitDelay);
     }
 
     return htmlDetailsPages;
