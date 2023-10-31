@@ -31,7 +31,7 @@ export class PlayerHistoryAggregator {
 
     const uncheckedGames =
       await this.#gamesRepository.getXgamesWithUncheckedPlayerHistory(
-        this.#options.features.batchSize,
+        this.#options.features.options.batchSize,
       );
     if (uncheckedGames.length === 0) {
       this.#logger.debugc(
@@ -61,7 +61,7 @@ export class PlayerHistoryAggregator {
     const gamesPagesMap = new Map();
 
     for (let game of games) {
-      await delay(this.#options.features.unitDelay);
+      await delay(this.#options.features.options.unitDelay);
 
       try {
         const page = await this.#steamClient.getSteamchartsGameHtmlDetailsPage(game.id);
@@ -79,8 +79,8 @@ export class PlayerHistoryAggregator {
     this.#logger.debugc("adding current players for games via steam api");
 
     const games = await this.#gamesRepository.getXgamesCheckedMoreThanYmsAgo(
-      this.#options.features.batchSize,
-      this.#options.features.currentPlayersUpdateIntervalDelay,
+      this.#options.features.options.batchSize,
+      this.#options.features.options.currentPlayersUpdateIntervalDelay,
     );
 
     if (games.length === 0) {
