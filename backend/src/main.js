@@ -71,10 +71,7 @@ async function main() {
     { method: playerHistoryAggregator.addPlayerHistoryFromSteamcharts },
     { method: playerHistoryAggregator.addCurrentPlayers },
   ];
-  const runner = new Runner(logger, {
-    delayFn: config.runner.delayFn,
-    defaultIterationDelay: config.runner.defaultIterationDelay,
-  });
+  const runner = new Runner(logger, config.runner.options);
 
   try {
     /**

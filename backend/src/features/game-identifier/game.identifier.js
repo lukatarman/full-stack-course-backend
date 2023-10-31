@@ -40,7 +40,9 @@ export class GameIdentifier {
     );
     if (steamApps.length === 0) {
       this.#logger.debugc(
-        `no steam apps in db, retry in: ${this.#options.runner.defaultIterationDelay} ms`,
+        `no steam apps in db, retry in: ${
+          this.#options.runner.options.defaultIterationDelay
+        } ms`,
       );
       return;
     }

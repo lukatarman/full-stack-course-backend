@@ -31,8 +31,10 @@ export const config = {
     updateIntervalDelay: hoursToMs(Number(process.env.FEATURES_UPDATE_INTERVAL_DELAY)),
   },
   runner: {
-    delayFn: delay,
-    defaultIterationDelay: Number(process.env.RUNNER_DEFAULT_ITERATION_DELAY),
+    options: {
+      delayFn: delay,
+      defaultIterationDelay: Number(process.env.RUNNER_DEFAULT_ITERATION_DELAY),
+    },
     expectedErrorTypes: [AxiosError],
   },
   logger: {

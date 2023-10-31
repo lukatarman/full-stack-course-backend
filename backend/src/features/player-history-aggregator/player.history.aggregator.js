@@ -36,7 +36,7 @@ export class PlayerHistoryAggregator {
     if (uncheckedGames.length === 0) {
       this.#logger.debugc(
         `no unchecked games in db, retry in: ${
-          this.#options.runner.defaultIterationDelay
+          this.#options.runner.options.defaultIterationDelay
         } ms`,
       );
       return;

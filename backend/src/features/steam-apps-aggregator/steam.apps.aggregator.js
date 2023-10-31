@@ -30,7 +30,7 @@ export class SteamAppsAggregator {
       return;
     }
 
-    const x = this.#options.runner.defaultIntervalDelay;
+    const x = this.#options.runner.options.defaultIntervalDelay;
     if (moreThanXhoursPassedSince(x, lastUpdate.updatedOn))
       await this.#collectSteamApps();
   };
