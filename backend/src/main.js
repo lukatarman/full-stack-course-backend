@@ -70,9 +70,6 @@ async function main() {
     { method: gameIdentifier.updateGamesWithoutDetails },
     { method: playerHistoryAggregator.addPlayerHistoryFromSteamcharts },
     { method: playerHistoryAggregator.addCurrentPlayers },
-    /**
-     * @todo batch delay must be performed by runner
-     */
   ];
   const runner = new Runner(logger, {
     delayFn: config.runner.delayFn,
