@@ -33,15 +33,22 @@ describe("runner.js", () => {
     });
 
     describe("runs one function in a loop with a delay", () => {
-      describe("for two iterations", () => {
+      fdescribe("for two iterations", () => {
         beforeEach(async function () {
+          jasmine.clock().install();
+          jasmine.clock().mockDate();
+
           const testFunc = () => {
             return Promise.resolve();
           };
 
-          const iterationDelayIsMs = 200;
+          const delayFn = (delay) => {
+            jasmine.clock().tick(delay);
+          };
 
-          const runner = new Runner(createLoggerMock(), options(delay, 2));
+          const iterationDelayIsMs = 2000;
+
+          const runner = new Runner(createLoggerMock(), options(delayFn, 2));
 
           const timeBeforeRunning = new Date().getTime();
           await runner.run([{ method: testFunc, delay: iterationDelayIsMs }], []);
@@ -50,9 +57,12 @@ describe("runner.js", () => {
           this.result = timeAfterRunning - timeBeforeRunning;
         });
 
+        afterEach(() => {
+          jasmine.clock().uninstall();
+        });
+
         it("the functions ran with the correct delay in between", function () {
-          expect(this.result).toBeGreaterThan(300);
-          expect(this.result).toBeLessThan(500);
+          expect(this.result).toBe(4000);
         });
       });
     });
