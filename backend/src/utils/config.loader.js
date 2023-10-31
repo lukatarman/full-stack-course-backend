@@ -19,16 +19,18 @@ export const config = {
     authOn: process.env.DB_AUTH_ON === "true",
   },
   features: {
-    batchSize: Number(process.env.FEATURES_BATCH_SIZE),
-    batchDelay: Number(process.env.FEATURES_BATCH_DELAY),
-    unitDelay: Number(process.env.FEATURES_UNIT_DELAY),
-    currentPlayersUpdateIntervalDelay: hoursToMs(
-      Number(process.env.FEATURES_CURRENT_PLAYERS_UPDATE_INTERVAL_DELAY),
-    ),
-    releaseDateUpdateIntervalDelay: Number(
-      process.env.FEATURES_RELEASE_DATE_UPDATE_INTERVAL_DELAY,
-    ),
-    updateIntervalDelay: hoursToMs(Number(process.env.FEATURES_UPDATE_INTERVAL_DELAY)),
+    options: {
+      batchSize: Number(process.env.FEATURES_BATCH_SIZE),
+      batchDelay: Number(process.env.FEATURES_BATCH_DELAY),
+      unitDelay: Number(process.env.FEATURES_UNIT_DELAY),
+      currentPlayersUpdateIntervalDelay: hoursToMs(
+        Number(process.env.FEATURES_CURRENT_PLAYERS_UPDATE_INTERVAL_DELAY),
+      ),
+      releaseDateUpdateIntervalDelay: Number(
+        process.env.FEATURES_RELEASE_DATE_UPDATE_INTERVAL_DELAY,
+      ),
+      updateIntervalDelay: hoursToMs(Number(process.env.FEATURES_UPDATE_INTERVAL_DELAY)),
+    },
   },
   runner: {
     options: {
