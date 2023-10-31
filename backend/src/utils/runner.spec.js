@@ -1,6 +1,5 @@
 import { createLoggerMock } from "./logger.mock.js";
 import { Runner } from "./runner.js";
-import { delay } from "./time.utils.js";
 
 describe("runner.js", () => {
   describe(".run()", () => {
@@ -33,25 +32,22 @@ describe("runner.js", () => {
     });
 
     describe("runs one function in a loop with a delay", () => {
-      fdescribe("for two iterations", () => {
+      describe("for two iterations", () => {
         beforeEach(async function () {
           jasmine.clock().install();
           jasmine.clock().mockDate();
 
-          const testFunc = () => {
-            return Promise.resolve();
-          };
+          this.funcSpy = jasmine.createSpy("funcSpy");
 
-          const delayFn = (delay) => {
+          const timeMock = (delay) => {
             jasmine.clock().tick(delay);
           };
 
-          const iterationDelayIsMs = 2000;
-
-          const runner = new Runner(createLoggerMock(), options(delayFn, 2));
+          const runner = new Runner(createLoggerMock(), options(timeMock, 2));
 
           const timeBeforeRunning = new Date().getTime();
-          await runner.run([{ method: testFunc, delay: iterationDelayIsMs }], []);
+          this.runnerResult = runner.run([{ method: this.funcSpy, delay: 2000 }], []);
+          await this.runnerResult;
           const timeAfterRunning = new Date().getTime();
 
           this.result = timeAfterRunning - timeBeforeRunning;
@@ -63,6 +59,11 @@ describe("runner.js", () => {
 
         it("the functions ran with the correct delay in between", function () {
           expect(this.result).toBe(4000);
+        });
+
+        it("the function ran two times", async function () {
+          await expectAsync(this.runnerResult).toBeResolved();
+          expect(this.funcSpy).toHaveBeenCalledTimes(2);
         });
       });
     });
