@@ -94,7 +94,7 @@ export class GameIdentifier {
     if (steamApps.length === 0) {
       this.#logger.debugc(
         `no steam apps in db, retry in: ${
-          this.#options.runner.options.iterationDelay
+          this.#options.runner.options.defaultIterationDelay
         } ms`,
       );
       return;
@@ -143,7 +143,7 @@ export class GameIdentifier {
     if (games.length === 0) {
       this.#logger.debugc(
         `no games without details in db, retrying in ${
-          this.#options.runner.options.iterationDelay
+          this.#options.runner.options.defaultIterationDelay
         }`,
       );
       return;
