@@ -44,7 +44,7 @@ FEATURES_UNIT_DELAY=800                          # ms
 FEATURES_CURRENT_PLAYERS_UPDATE_INTERVAL_DELAY=2 # h
 FEATURES_UPDATE_INTERVAL_DELAY=12                # h
 
-RUNNER_ITERATION_DELAY=5000                      # ms
+RUNNER_DEFAULT_ITERATION_DELAY=5000                      # ms
 ```
 
 **Step 3.2**, cloud setup:
@@ -77,7 +77,7 @@ FEATURES_UNIT_DELAY=2000                         # ms
 FEATURES_CURRENT_PLAYERS_UPDATE_INTERVAL_DELAY=2 # h
 FEATURES_UPDATE_INTERVAL_DELAY=12                # h
 
-RUNNER_ITERATION_DELAY=30000                     # ms
+RUNNER_DEFAULT_ITERATION_DELAY=30000                     # ms
 ```
 
 ## Running the Application
