@@ -10,7 +10,7 @@ export class Runner {
   #logger;
   #options;
 
-  constructor(logger, options = defaultOptions()) {
+  constructor(logger, options = defaultOptions) {
     this.#logger = logger;
 
     if (options.iterations === undefined) {
