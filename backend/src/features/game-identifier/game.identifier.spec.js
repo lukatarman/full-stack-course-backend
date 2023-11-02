@@ -936,7 +936,7 @@ describe(".updateGamesWithoutReleaseDates.", function () {
 
     it("getGamesWithoutReleaseDates was called with 'this.options.batchSize'", function () {
       expect(this.gamesRepository.getGamesWithoutReleaseDates).toHaveBeenCalledWith(
-        options(2).features.options.batchSize,
+        options(2).runner.options.batchSize,
       );
     });
 
