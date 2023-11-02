@@ -28,7 +28,6 @@ export class GamesRepository {
           {
             $match: {
               $or: [
-                { releaseDate: { $eq: "" } },
                 { developers: { $eq: [] } },
                 { genres: { $eq: [] } },
                 { description: { $eq: "" } },
@@ -49,10 +48,41 @@ export class GamesRepository {
           { id: { $eq: game.id } },
           {
             $set: {
-              releaseDate: game.releaseDate,
               developers: game.developers,
               genres: game.genres,
               description: game.description,
+            },
+          },
+        ),
+      ),
+    );
+  }
+
+  async getGamesWithoutReleaseDates(amount) {
+    return (
+      await this.#dbClient
+        .get("games")
+        .aggregate([
+          {
+            $match: {
+              $or: [{ releaseDate: { $eq: "" } }, { releaseDate: { $gt: new Date() } }],
+            },
+          },
+          { $limit: amount },
+        ])
+        .toArray()
+    ).map((dbEntry) => Game.fromDbEntry(dbEntry));
+  }
+
+  async updateReleaseDates(games) {
+    await Promise.all(
+      games.map((game) =>
+        this.#dbClient.updateOne(
+          "games",
+          { id: { $eq: game.id } },
+          {
+            $set: {
+              releaseDate: game.releaseDate,
             },
           },
         ),

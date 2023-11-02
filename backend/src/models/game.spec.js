@@ -1,8 +1,5 @@
 import { Game } from "./game.js";
-import {
-  getOneGameWithoutDetails,
-  getOneSteamAppInstantiatedGame,
-} from "./game.mocks.js";
+import { getOneSteamAppInstantiatedGame, getXGamesWithoutDetails } from "./game.mocks.js";
 import { PlayerHistory } from "./player.history.js";
 import { getXSampleSteamApps } from "./steam.app.mocks.js";
 
@@ -446,47 +443,13 @@ describe("game.js", function () {
   });
 
   describe(".updateGameDetails", function () {
-    describe("When we try to update a missing release date,", function () {
-      beforeEach(function () {
-        this.releaseDate = new Date("23 July 2023");
-
-        this.game = getOneGameWithoutDetails();
-
-        this.game.updateGameDetails(this.releaseDate, [], [], "");
-      });
-
-      it("a game is returned.", function () {
-        expect(this.game).toBeInstanceOf(Game);
-      });
-
-      it("the game's release date is updated", function () {
-        expect(this.game.releaseDate).toBe(this.releaseDate);
-      });
-    });
-
-    describe("When we try to update an existing release date,", function () {
-      beforeEach(function () {
-        this.game = getOneSteamAppInstantiatedGame();
-
-        this.game.updateGameDetails("22 July 2019", [], [], "");
-      });
-
-      it("a game is returned.", function () {
-        expect(this.game).toBeInstanceOf(Game);
-      });
-
-      it("the game's release date stays the same", function () {
-        expect(this.game.releaseDate).toBe("21 July 2019");
-      });
-    });
-
     describe("When we try to update missing developers,", function () {
       beforeEach(function () {
         this.developers = ["Valve", "Test Dev"];
 
-        this.game = getOneGameWithoutDetails();
+        this.game = getXGamesWithoutDetails(1)[0];
 
-        this.game.updateGameDetails("", this.developers, [], "");
+        this.game.updateGameDetails(this.developers, [], "");
       });
 
       it("a game is returned.", function () {
@@ -502,7 +465,7 @@ describe("game.js", function () {
       beforeEach(function () {
         this.game = getOneSteamAppInstantiatedGame();
 
-        this.game.updateGameDetails("", ["Test Dev"], [], "");
+        this.game.updateGameDetails(["Test Dev"], [], "");
       });
 
       it("a game is returned.", function () {
@@ -518,9 +481,9 @@ describe("game.js", function () {
       beforeEach(function () {
         this.genres = ["RPG", "Strategy"];
 
-        this.game = getOneGameWithoutDetails();
+        this.game = getXGamesWithoutDetails(1)[0];
 
-        this.game.updateGameDetails("", [], this.genres, "");
+        this.game.updateGameDetails([], this.genres, "");
       });
 
       it("a game is returned.", function () {
@@ -536,7 +499,7 @@ describe("game.js", function () {
       beforeEach(function () {
         this.game = getOneSteamAppInstantiatedGame();
 
-        this.game.updateGameDetails("", [], ["Test Genre"], "");
+        this.game.updateGameDetails([], ["Test Genre"], "");
       });
 
       it("a game is returned.", function () {
@@ -552,9 +515,9 @@ describe("game.js", function () {
       beforeEach(function () {
         this.description = "Test description";
 
-        this.game = getOneGameWithoutDetails();
+        this.game = getXGamesWithoutDetails(1)[0];
 
-        this.game.updateGameDetails("", [], [], this.description);
+        this.game.updateGameDetails([], [], this.description);
       });
 
       it("a game is returned.", function () {
@@ -570,7 +533,43 @@ describe("game.js", function () {
       beforeEach(function () {
         this.game = getOneSteamAppInstantiatedGame();
 
-        this.game.updateGameDetails("", [], [], "Test description");
+        this.game.updateGameDetails([], [], "Test description");
+      });
+
+      it("a game is returned.", function () {
+        expect(this.game).toBeInstanceOf(Game);
+      });
+
+      it("the game's description stays the same", function () {
+        expect(this.game.description).toEqual("Best game");
+      });
+    });
+  });
+
+  describe(".updateReleaseDate", function () {
+    describe("When we try to update a missing release date,", function () {
+      beforeEach(function () {
+        this.releaseDate = new Date("23 July 2023");
+
+        this.game = getXGamesWithoutDetails(1)[0];
+
+        this.game.updateReleaseDate(this.releaseDate);
+      });
+
+      it("a game is returned.", function () {
+        expect(this.game).toBeInstanceOf(Game);
+      });
+
+      it("the game's release date is updated", function () {
+        expect(this.game.releaseDate).toBe(this.releaseDate);
+      });
+    });
+
+    describe("When we try to update an existing release date,", function () {
+      beforeEach(function () {
+        this.game = getOneSteamAppInstantiatedGame();
+
+        this.game.updateReleaseDate("22 July 2019");
       });
 
       it("a game is returned.", function () {
@@ -578,7 +577,7 @@ describe("game.js", function () {
       });
 
       it("the game's release date stays the same", function () {
-        expect(this.game.description).toEqual("Best game");
+        expect(this.game.releaseDate).toBe("21 July 2019");
       });
     });
   });

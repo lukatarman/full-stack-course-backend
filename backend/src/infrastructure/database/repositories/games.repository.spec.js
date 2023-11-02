@@ -126,7 +126,7 @@ describe("GamesRepository", function () {
   });
 
   describe(".getGamesWithoutDetails", function () {
-    describe("When 4 games without details are requested", function () {
+    describe("When 3 games without details are requested", function () {
       beforeAll(async function () {
         this.databaseClient = await initiateInMemoryDatabase(["games"]);
 
@@ -134,39 +134,36 @@ describe("GamesRepository", function () {
 
         const gamesRepo = new GamesRepository(this.databaseClient);
 
-        this.result = await gamesRepo.getGamesWithoutDetails(4);
+        this.result = await gamesRepo.getGamesWithoutDetails(3);
       });
 
       afterAll(function () {
         this.databaseClient.disconnect();
       });
 
-      it("four games are returned", function () {
-        expect(this.result.length).toBe(4);
+      it("three games are returned", function () {
+        expect(this.result.length).toBe(3);
       });
 
-      it("the game is an instance of Game", function () {
+      it("the games are an instance of Game", function () {
         expect(this.result[0]).toBeInstanceOf(Game);
+        expect(this.result[1]).toBeInstanceOf(Game);
+        expect(this.result[2]).toBeInstanceOf(Game);
       });
 
-      it("the first game is missing the release date", function () {
-        expect(this.result[0].id).toBe(239140);
-        expect(this.result[0].releaseDate).toBe("");
+      it("the first game is missing the developers", function () {
+        expect(this.result[0].id).toBe(232090);
+        expect(this.result[0].developers).toEqual([]);
       });
 
-      it("the second game is missing the developers", function () {
-        expect(this.result[1].id).toBe(232090);
-        expect(this.result[1].developers).toEqual([]);
+      it("the second game is missing the genres", function () {
+        expect(this.result[1].id).toBe(881100);
+        expect(this.result[1].genres).toEqual([]);
       });
 
-      it("the third game is missing the genres", function () {
-        expect(this.result[2].id).toBe(881100);
-        expect(this.result[2].genres).toEqual([]);
-      });
-
-      it("the fifth game is missing a description", function () {
-        expect(this.result[3].id).toBe(620);
-        expect(this.result[3].description).toBe("");
+      it("the third game is missing the description", function () {
+        expect(this.result[2].id).toBe(620);
+        expect(this.result[2].description).toEqual("");
       });
     });
   });
@@ -193,10 +190,79 @@ describe("GamesRepository", function () {
 
       it("the game's details are updated", function () {
         expect(this.result.id).toBe(this.games[0].id);
-        expect(this.result.releaseDate).toBe(this.games[0].releaseDate);
         expect(this.result.developers).toEqual(this.games[0].developers);
         expect(this.result.genres).toEqual(this.games[0].genres);
         expect(this.result.description).toBe(this.games[0].description);
+      });
+    });
+  });
+
+  describe(".getGamesWithoutReleaseDates", function () {
+    describe("When 3 games without valid release dates are requested", function () {
+      beforeAll(async function () {
+        this.databaseClient = await initiateInMemoryDatabase(["games"]);
+
+        await this.databaseClient.insertMany("games", getGamesDatasetMock());
+
+        const gamesRepo = new GamesRepository(this.databaseClient);
+
+        this.result = await gamesRepo.getGamesWithoutReleaseDates(3);
+      });
+
+      afterAll(function () {
+        this.databaseClient.disconnect();
+      });
+
+      it("three games are returned", function () {
+        expect(this.result.length).toBe(3);
+      });
+
+      it("the games are an instance of Game", function () {
+        expect(this.result[0]).toBeInstanceOf(Game);
+        expect(this.result[1]).toBeInstanceOf(Game);
+        expect(this.result[2]).toBeInstanceOf(Game);
+      });
+
+      it("the first game has the correct date", function () {
+        expect(this.result[0].id).toBe(227300);
+        expect(this.result[0].releaseDate).toEqual(new Date("Thu Oct 17 2999"));
+      });
+
+      it("the second game is missing the release date", function () {
+        expect(this.result[1].id).toBe(2218750);
+        expect(this.result[1].releaseDate).toBe("");
+      });
+
+      it("the third game is missing the release date", function () {
+        expect(this.result[2].id).toBe(239140);
+        expect(this.result[2].releaseDate).toBe("");
+      });
+    });
+  });
+
+  describe(".updateReleaseDates", function () {
+    describe("When the release date of 1 game is to be updated,", function () {
+      beforeAll(async function () {
+        this.databaseClient = await initiateInMemoryDatabase(["games"]);
+
+        await this.databaseClient.insertMany("games", getGamesDatasetMock());
+
+        const gamesRepo = new GamesRepository(this.databaseClient);
+
+        this.games = getOneGameWithDetails();
+
+        await gamesRepo.updateReleaseDates(this.games);
+
+        this.result = await gamesRepo.getOneGameById(this.games[0].id);
+      });
+
+      afterAll(function () {
+        this.databaseClient.disconnect();
+      });
+
+      it("the game's details are updated", function () {
+        expect(this.result.id).toBe(this.games[0].id);
+        expect(this.result.releaseDate).toEqual(this.games[0].releaseDate);
       });
     });
   });

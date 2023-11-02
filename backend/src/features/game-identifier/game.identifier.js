@@ -4,6 +4,7 @@ import {
   identifyGames,
   assignType,
   updateMissingDetails,
+  updateMissingReleaseDates,
 } from "./services/game.service.js";
 import { delay } from "../../utils/time.utils.js";
 import { HistoryCheck } from "../../models/history.check.js";
@@ -144,19 +145,19 @@ export class GameIdentifier {
       this.#logger.debugc(
         `no games without details in db, retrying in ${
           this.#options.runner.options.defaultIterationDelay
-        }`,
+        } ms`,
       );
       return;
     }
 
-    const htmlDetailsPages = await this.#getSteamDbHtmlDetailsPage(games);
+    const htmlDetailsPages = await this.#getSteamDbHtmlDetailsPages(games);
 
     const updatedGames = updateMissingDetails(games, htmlDetailsPages);
 
     this.#persistMissingProperties(updatedGames);
   };
 
-  async #getSteamDbHtmlDetailsPage(games) {
+  async #getSteamDbHtmlDetailsPages(games) {
     const htmlDetailsPages = [];
 
     for (let game of games) {
@@ -171,4 +172,33 @@ export class GameIdentifier {
     this.#logger.debugc(`persisting ${games.length} games with updated details`);
     await this.#gamesRepository.updateGameDetails(games);
   }
+
+  updateGamesWithoutReleaseDates = async () => {
+    this.#logger.debugc("updating games without details");
+
+    const games = await this.#gamesRepository.getGamesWithoutReleaseDates(
+      this.#options.batchSize,
+    );
+
+    if (games.length === 0) {
+      this.#logger.debugc(
+        `no games without release dates in db, retrying in ${
+          this.#options.iterationDelay
+        } ms`,
+      );
+      return;
+    }
+
+    const htmlDetailsPages = await this.#getSteamDbHtmlDetailsPages(games);
+
+    const updatedGames = updateMissingReleaseDates(games, htmlDetailsPages);
+
+    this.#persistReleaseDates(updatedGames);
+  };
+
+  #persistReleaseDates = async (games) => {
+    this.#logger.debugc(`persisting ${games.length} games with updated release dates`);
+
+    await this.#gamesRepository.updateReleaseDates(games);
+  };
 }

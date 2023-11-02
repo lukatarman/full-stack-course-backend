@@ -93,10 +93,7 @@ export class Game {
     });
   }
 
-  updateGameDetails(newReleaseDate, newDevelopers, newGenres, newDescription) {
-    if (newReleaseDate !== "" && this.releaseDate === "")
-      this.releaseDate = newReleaseDate;
-
+  updateGameDetails(newDevelopers, newGenres, newDescription) {
     if (newDevelopers.length !== 0 && this.developers.length === 0)
       this.developers = Array.from(newDevelopers);
 
@@ -105,5 +102,10 @@ export class Game {
 
     if (newDescription !== "" && this.description === "")
       this.description = newDescription;
+  }
+
+  updateReleaseDate(newReleaseDate) {
+    if (newReleaseDate !== "" && this.releaseDate === "")
+      this.releaseDate = newReleaseDate;
   }
 }
