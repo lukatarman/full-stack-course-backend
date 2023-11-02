@@ -282,16 +282,18 @@ describe("runSync()", () => {
     describe("when one of two running functions throws an expected error,", function () {
       let funcOneSpy;
       let funcTwoSpy;
-      beforeAll(function () {
+      beforeEach(async function () {
         funcOneSpy = jasmine.createSpy("funcOneSpy").and.throwError(new ExpectedError());
         funcTwoSpy = jasmine.createSpy("funcTwoSpy");
 
         this.logger = createLoggerMock();
 
         this.result = new Runner(this.logger, options(delayMock, 2, 0)).runSync(
-          [funcOneSpy, funcTwoSpy],
+          [{ method: funcOneSpy }, { method: funcTwoSpy }],
           [ExpectedError],
         );
+
+        await this.result;
       });
 
       it("the expected error is catched", async function () {
