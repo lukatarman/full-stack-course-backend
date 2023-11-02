@@ -47,7 +47,7 @@ export class Runner {
     // function rely on very short iteration times. If they are slowed down some tests are
     // failing unexpextedly. Don't refactor next two lines.
     const iterationDelay = delay ? delay : this.#options.defaultIterationDelay;
-    
+
     let iterations = this.#options.iterations;
     while (iterations--) {
       try {
