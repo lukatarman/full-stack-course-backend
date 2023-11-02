@@ -32,7 +32,7 @@ describe("PlayerHistoryAggregator", function () {
           this.historyChecksRepositoryMock,
           this.playerHistoryRepositoryMock,
           createLoggerMock(),
-          { unitDelay: 0, batchSize: 1 },
+          options(),
         );
 
         await this.agg.addPlayerHistoryFromSteamcharts();
@@ -120,7 +120,7 @@ describe("PlayerHistoryAggregator", function () {
           this.historyChecksRepositoryMock,
           this.playerHistoryRepositoryMock,
           createLoggerMock(),
-          { unitDelay: 0, batchSize: 2 },
+          options(2),
         );
 
         await this.agg.addPlayerHistoryFromSteamcharts();
@@ -197,7 +197,7 @@ describe("PlayerHistoryAggregator", function () {
           this.historyChecksRepositoryMock,
           this.playerHistoryRepositoryMock,
           createLoggerMock(),
-          { unitDelay: 0, batchSize: 1 },
+          options(),
         );
 
         await this.agg.addPlayerHistoryFromSteamcharts();
@@ -244,7 +244,7 @@ describe("PlayerHistoryAggregator", function () {
           this.historyChecksRepositoryMock,
           this.playerHistoryRepositoryMock,
           createLoggerMock(),
-          { batchSize: 1, currentPlayersUpdateIntervalDelay: 0 },
+          options(),
         );
 
         await agg.addCurrentPlayers();
@@ -295,7 +295,7 @@ describe("PlayerHistoryAggregator", function () {
           this.historyChecksRepositoryMock,
           this.playerHistoryRepositoryMock,
           createLoggerMock(),
-          { batchSize: 1, currentPlayersUpdateIntervalDelay: 0 },
+          options(),
         );
 
         await agg.addCurrentPlayers();
@@ -351,6 +351,18 @@ describe("PlayerHistoryAggregator", function () {
     });
   });
 });
+
+function options(
+  batchSize = 1,
+  unitDelay = 0,
+  iterationDelay = 0,
+  currentPlayersUpdateIntervalDelay = 0,
+) {
+  return {
+    features: { options: { batchSize, unitDelay, currentPlayersUpdateIntervalDelay } },
+    runner: { options: { iterationDelay } },
+  };
+}
 
 function createSteamMock(detailsPageRet, currentPlayersRet) {
   const spyObj = jasmine.createSpyObj("steamClient", [

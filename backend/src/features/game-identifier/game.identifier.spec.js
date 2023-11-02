@@ -21,11 +21,6 @@ describe("game.identifier.js", function () {
   describe(".tryViaSteamWeb", function () {
     describe("gets zero steamApps from the database and stops. So,", function () {
       beforeEach(async function () {
-        this.options = {
-          batchSize: 1,
-          unitDelay: 0,
-        };
-
         this.steamClientMock = createSteamMock([undefined]);
 
         this.steamAppsRepository = createSteamAppsRepositoryMock([], undefined);
@@ -38,7 +33,7 @@ describe("game.identifier.js", function () {
           this.gamesRepository,
           this.historyChecksRepository,
           createLoggerMock(),
-          this.options,
+          options(),
         );
 
         await this.identifier.tryViaSteamWeb();
@@ -50,10 +45,10 @@ describe("game.identifier.js", function () {
         ).toHaveBeenCalledTimes(1);
       });
 
-      it("getSteamWebUntriedFilteredSteamApps was called with 'this.options.batchSize'", function () {
+      it("getSteamWebUntriedFilteredSteamApps was called with 'options.batchSize'", function () {
         expect(
           this.steamAppsRepository.getSteamWebUntriedFilteredSteamApps,
-        ).toHaveBeenCalledWith(this.options.batchSize);
+        ).toHaveBeenCalledWith(options().features.options.batchSize);
       });
 
       it("getSteamAppHtmlDetailsPage was not called", function () {
@@ -77,11 +72,6 @@ describe("game.identifier.js", function () {
 
     describe("gets one game out of a batch of one steamApp, and inserts it into the database. So,", function () {
       beforeEach(async function () {
-        this.options = {
-          batchSize: 1,
-          unitDelay: 0,
-        };
-
         this.app = [{ appid: 1, name: "Animaddicts" }];
 
         this.games = discoverGamesFromSteamWeb(this.app, [
@@ -111,7 +101,7 @@ describe("game.identifier.js", function () {
           this.gamesRepository,
           this.historyChecksRepository,
           createLoggerMock(),
-          this.options,
+          options(),
         );
 
         await this.identifier.tryViaSteamWeb();
@@ -123,10 +113,10 @@ describe("game.identifier.js", function () {
         ).toHaveBeenCalledTimes(1);
       });
 
-      it("getSteamWebUntriedFilteredSteamApps was called with 'this.options.batchSize'", function () {
+      it("getSteamWebUntriedFilteredSteamApps was called with 'options.batchSize'", function () {
         expect(
           this.steamAppsRepository.getSteamWebUntriedFilteredSteamApps,
-        ).toHaveBeenCalledWith(this.options.batchSize);
+        ).toHaveBeenCalledWith(options().features.options.batchSize);
       });
 
       it("getSteamWebUntriedFilteredSteamApps was called before getSteamAppHtmlDetailsPage", function () {
@@ -196,11 +186,6 @@ describe("game.identifier.js", function () {
 
     describe("gets one game out of a batch of two steamApps, and inserts it into the database. So,", function () {
       beforeEach(async function () {
-        this.options = {
-          batchSize: 1,
-          unitDelay: 0,
-        };
-
         this.apps = [
           { appid: 1, name: "Animaddicts" },
           { appid: 2, name: "Glitchhikers Soundtrack" },
@@ -240,7 +225,7 @@ describe("game.identifier.js", function () {
           this.gamesRepository,
           this.historyChecksRepository,
           createLoggerMock(),
-          this.options,
+          options(),
         );
 
         await this.identifier.tryViaSteamWeb();
@@ -255,7 +240,7 @@ describe("game.identifier.js", function () {
       it("getSteamWebUntriedFilteredSteamApps was called with 'this.#options.batchSize'", function () {
         expect(
           this.steamAppsRepository.getSteamWebUntriedFilteredSteamApps,
-        ).toHaveBeenCalledWith(this.options.batchSize);
+        ).toHaveBeenCalledWith(options().features.options.batchSize);
       });
 
       it("getSteamWebUntriedFilteredSteamApps was called before getSteamAppHtmlDetailsPage", function () {
@@ -328,11 +313,6 @@ describe("game.identifier.js", function () {
 
     describe("gets two games out of a batch of three steamApps, and inserts them into the database. So,", function () {
       beforeEach(async function () {
-        this.options = {
-          batchSize: 1,
-          unitDelay: 0,
-        };
-
         this.apps = [
           { appid: 1, name: "Animaddicts" },
           { appid: 2, name: "Glitchhikers Soundtrack" },
@@ -378,7 +358,7 @@ describe("game.identifier.js", function () {
           this.gamesRepository,
           this.historyChecksRepository,
           createLoggerMock(),
-          this.options,
+          options(),
         );
 
         await this.identifier.tryViaSteamWeb();
@@ -390,10 +370,10 @@ describe("game.identifier.js", function () {
         ).toHaveBeenCalledTimes(1);
       });
 
-      it("getSteamWebUntriedFilteredSteamApps was called with 'this.options.batchSize'", function () {
+      it("getSteamWebUntriedFilteredSteamApps was called with 'options.batchSize'", function () {
         expect(
           this.steamAppsRepository.getSteamWebUntriedFilteredSteamApps,
-        ).toHaveBeenCalledWith(this.options.batchSize);
+        ).toHaveBeenCalledWith(options().features.options.batchSize);
       });
 
       it("getSteamWebUntriedFilteredSteamApps was called before getSteamAppHtmlDetailsPage", function () {
@@ -465,11 +445,6 @@ describe("game.identifier.js", function () {
   describe(".tryViaSteamchartsWeb", function () {
     describe("gets zero steamApps from the database and stops. So,", function () {
       beforeEach(async function () {
-        this.options = {
-          batchSize: 1,
-          unitDelay: 0,
-        };
-
         this.steamClientMock = createSteamMock([undefined]);
 
         this.steamAppsRepository = createSteamAppsRepositoryMock(undefined, []);
@@ -482,7 +457,7 @@ describe("game.identifier.js", function () {
           this.gamesRepository,
           this.historyChecksRepository,
           createLoggerMock(),
-          this.options,
+          options(),
         );
 
         await this.identifier.tryViaSteamchartsWeb();
@@ -494,10 +469,10 @@ describe("game.identifier.js", function () {
         ).toHaveBeenCalledTimes(1);
       });
 
-      it("getSteamchartsUntriedFilteredSteamApps was called with 'this.options.batchSize'", function () {
+      it("getSteamchartsUntriedFilteredSteamApps was called with 'options.batchSize'", function () {
         expect(
           this.steamAppsRepository.getSteamchartsUntriedFilteredSteamApps,
-        ).toHaveBeenCalledWith(this.options.batchSize);
+        ).toHaveBeenCalledWith(options().features.options.batchSize);
       });
 
       it("getSteamchartsGameHtmlDetailsPage was not called", function () {
@@ -523,11 +498,6 @@ describe("game.identifier.js", function () {
 
     describe("gets one game from a batch of two steamApps from the database and inserts them into the database. So,", function () {
       beforeEach(async function () {
-        this.options = {
-          batchSize: 1,
-          unitDelay: 0,
-        };
-
         this.apps = [
           { appid: 1, name: "Elden Ring" },
           { appid: 2, name: "Swords and Soldiers Beta" },
@@ -564,7 +534,7 @@ describe("game.identifier.js", function () {
           this.gamesRepository,
           this.historyChecksRepository,
           createLoggerMock(),
-          this.options,
+          options(),
         );
 
         await this.identifier.tryViaSteamchartsWeb();
@@ -576,10 +546,10 @@ describe("game.identifier.js", function () {
         ).toHaveBeenCalledTimes(1);
       });
 
-      it("getSteamchartsUntriedFilteredSteamApps was called with 'this.options.batchSize'", function () {
+      it("getSteamchartsUntriedFilteredSteamApps was called with 'options.batchSize'", function () {
         expect(
           this.steamAppsRepository.getSteamchartsUntriedFilteredSteamApps,
-        ).toHaveBeenCalledWith(this.options.batchSize);
+        ).toHaveBeenCalledWith(options().features.options.batchSize);
       });
 
       it("getSteamchartsUntriedFilteredSteamApps was called before getSteamchartsGameHtmlDetailsPage", function () {
@@ -654,11 +624,6 @@ describe("game.identifier.js", function () {
 
     describe("gets two games from a batch of three steamApps from the database and inserts them into the database. So,", function () {
       beforeEach(async function () {
-        this.options = {
-          batchSize: 1,
-          unitDelay: 0,
-        };
-
         this.apps = [
           { appid: 1, name: "Elden Ring" },
           { appid: 2, name: "Swords and Soldiers Beta" },
@@ -701,7 +666,7 @@ describe("game.identifier.js", function () {
           this.gamesRepository,
           this.historyChecksRepository,
           createLoggerMock(),
-          this.options,
+          options(),
         );
 
         await this.identifier.tryViaSteamchartsWeb();
@@ -713,10 +678,10 @@ describe("game.identifier.js", function () {
         ).toHaveBeenCalledTimes(1);
       });
 
-      it("getSteamchartsUntriedFilteredSteamApps was called with 'this.options.batchSize'", function () {
+      it("getSteamchartsUntriedFilteredSteamApps was called with 'options.batchSize'", function () {
         expect(
           this.steamAppsRepository.getSteamchartsUntriedFilteredSteamApps,
-        ).toHaveBeenCalledWith(this.options.batchSize);
+        ).toHaveBeenCalledWith(options().features.options.batchSize);
       });
 
       it("getSteamchartsUntriedFilteredSteamApps was called before getSteamAppHtmlDetailsPage", function () {
@@ -797,10 +762,6 @@ describe("game.identifier.js", function () {
 describe(".updateGamesWithoutDetails.", function () {
   describe("Finds no missing game properties in the database and stops", function () {
     beforeEach(async function () {
-      this.options = {
-        batchSize: 1,
-      };
-
       this.steamClientMock = createSteamMock([]);
       this.steamAppsRepository = createSteamAppsRepositoryMock();
       this.gamesRepository = createGamesRepositoryMock([]);
@@ -812,7 +773,7 @@ describe(".updateGamesWithoutDetails.", function () {
         this.gamesRepository,
         this.historyChecksRepository,
         createLoggerMock(),
-        this.options,
+        options(),
       );
 
       await this.identifier.updateGamesWithoutDetails();
@@ -822,9 +783,9 @@ describe(".updateGamesWithoutDetails.", function () {
       expect(this.gamesRepository.getGamesWithoutDetails).toHaveBeenCalledTimes(1);
     });
 
-    it("getGamesWithoutDetails was called with 'this.options.batchSize'", function () {
+    it("getGamesWithoutDetails was called with 'options.batchSize'", function () {
       expect(this.gamesRepository.getGamesWithoutDetails).toHaveBeenCalledWith(
-        this.options.batchSize,
+        options().features.options.batchSize,
       );
     });
 
@@ -839,11 +800,6 @@ describe(".updateGamesWithoutDetails.", function () {
 
   describe("Finds two games with missing properties", function () {
     beforeEach(async function () {
-      this.options = {
-        batchSize: 2,
-        unitDelay: 0,
-      };
-
       this.gamesRepoReturn = getXGamesWithoutDetails(2);
 
       this.steamClientMock = createSteamMock([
@@ -860,7 +816,7 @@ describe(".updateGamesWithoutDetails.", function () {
         this.gamesRepository,
         this.historyChecksRepository,
         createLoggerMock(),
-        this.options,
+        options(2),
       );
 
       await this.identifier.updateGamesWithoutDetails();
@@ -870,9 +826,9 @@ describe(".updateGamesWithoutDetails.", function () {
       expect(this.gamesRepository.getGamesWithoutDetails).toHaveBeenCalledTimes(1);
     });
 
-    it("getGamesWithoutDetails was called with 'this.options.batchSize'", function () {
+    it("getGamesWithoutDetails was called with 'options.batchSize'", function () {
       expect(this.gamesRepository.getGamesWithoutDetails).toHaveBeenCalledWith(
-        this.options.batchSize,
+        options(2).features.options.batchSize,
       );
     });
 
@@ -906,6 +862,13 @@ describe(".updateGamesWithoutDetails.", function () {
     });
   });
 });
+
+function options(batchSize = 1, unitDelay = 0, iterationDelay = 0) {
+  return {
+    features: { options: { batchSize, unitDelay } },
+    runner: { options: { iterationDelay } },
+  };
+}
 
 function createSteamMock(args) {
   const spyObj = jasmine.createSpyObj("steamClient", [
