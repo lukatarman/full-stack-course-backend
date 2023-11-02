@@ -20,7 +20,6 @@ describe("runner.js", () => {
       it(".runAsync() was not called", function () {
         expect(this.runner.runAsync).not.toHaveBeenCalled();
       });
-    });
 
     describe("calls .runAsync() if sync option is set to false", () => {
       beforeAll(function () {

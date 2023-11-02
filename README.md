@@ -125,3 +125,7 @@ The debugging configuration is only available for VSCode. You can debug the back
 For debugging the application in the Docker container select the configuration starting with "`Docker: ...`". This configuration will rebuild the backend image, start the Docker Compose setup with Node.js in debug mode and attach itself to it so that you can set breakpoints in VSCode. When you are finished debugging detach the debugger and the configuration will stop and clean up the containers.
 
 The Docker debugging configuration uses the `local-db.env` file for the db setup. For more info on the debugging configuration check the `launch` and `tasks` sections in `.vscode/steam-game-stats.code-workspace`.
+
+## Creating Issues
+
+If you would like to create an issue with a template, simply click "Get started" when creating an issue. If you would like to create an issue without a template, click on "Open a blank issue"

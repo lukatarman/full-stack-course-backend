@@ -1,10 +1,11 @@
-import { JSDOM } from "jsdom";
 import { Game } from "../../../models/game.js";
 import { SteamApp } from "../../../models/steam.app.js";
+import { parseHTML } from "linkedom";
 
 export function getSteamAppType(httpDetailsPage) {
-  const dom = new JSDOM(httpDetailsPage);
-  const breadcrumbElement = dom.window.document.querySelector(".blockbg");
+  const { document } = parseHTML(httpDetailsPage);
+
+  const breadcrumbElement = document.querySelector(".blockbg");
 
   if (!breadcrumbElement) return SteamApp.validTypes.unknown;
 
@@ -38,9 +39,9 @@ export function discoverGamesFromSteamWeb(steamApps, htmlDetailsPages) {
 }
 
 export function getReleaseDate(page) {
-  const dom = new JSDOM(page);
+  const { document } = parseHTML(page);
 
-  const releaseDateElement = dom.window.document.querySelector(".release_date .date");
+  const releaseDateElement = document.querySelector(".release_date .date");
 
   if (!releaseDateElement) return "";
 
@@ -50,9 +51,9 @@ export function getReleaseDate(page) {
 }
 
 export function getDevelopers(page) {
-  const dom = new JSDOM(page);
+  const { document } = parseHTML(page);
 
-  const developers = dom.window.document.querySelector(".dev_row #developers_list");
+  const developers = document.querySelector(".dev_row #developers_list");
 
   if (!developers) return [];
 
@@ -60,9 +61,9 @@ export function getDevelopers(page) {
 }
 
 export function getGenres(page) {
-  const dom = new JSDOM(page);
+  const { document } = parseHTML(page);
 
-  const genres = dom.window.document.querySelector("#genresAndManufacturer span");
+  const genres = document.querySelector("#genresAndManufacturer span");
 
   if (!genres) return [];
 
@@ -72,9 +73,9 @@ export function getGenres(page) {
 }
 
 export function getGameDescription(page) {
-  const dom = new JSDOM(page);
+  const { document } = parseHTML(page);
 
-  const description = dom.window.document.querySelector(".game_description_snippet");
+  const description = document.querySelector(".game_description_snippet");
 
   if (!description) return "";
 
@@ -120,9 +121,9 @@ export function updateMissingDetails(games, htmlDetailsPages) {
 }
 
 export function getSteamDbDevelopers(page) {
-  const dom = new JSDOM(page);
+  const { document } = parseHTML(page);
 
-  const developers = dom.window.document.querySelector(
+  const developers = document.querySelector(
     "table.table.table-bordered.table-hover.table-responsive-flex tbody tr:nth-child(3) td:last-child",
   );
 
@@ -132,9 +133,9 @@ export function getSteamDbDevelopers(page) {
 }
 
 export function getSteamDbGenres(page) {
-  const dom = new JSDOM(page);
+  const { document } = parseHTML(page);
 
-  const domTableBody = dom.window.document.querySelector("#info tbody");
+  const domTableBody = document.querySelector("#info tbody");
 
   if (!domTableBody) return [];
 
@@ -148,9 +149,9 @@ export function getSteamDbGenres(page) {
 }
 
 export function getSteamDbDescription(page) {
-  const dom = new JSDOM(page);
+  const { document } = parseHTML(page);
 
-  const description = dom.window.document.querySelector(".header-description");
+  const description = document.querySelector(".header-description");
 
   if (!description) return "";
 
@@ -164,9 +165,9 @@ export function updateMissingReleaseDates(games, htmlDetailsPages) {
 }
 
 export function getSteamDbReleaseDate(page) {
-  const dom = new JSDOM(page);
+  const { document } = parseHTML(page);
 
-  const releaseDateElement = dom.window.document.querySelector(
+  const releaseDateElement = document.querySelector(
     "table.table.table-bordered.table-hover.table-responsive-flex tbody tr:last-child td:last-child",
   );
 

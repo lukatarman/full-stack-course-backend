@@ -624,7 +624,7 @@ describe("game.service.js", () => {
 
     describe("When we provide a html page that contains a valid date,", function () {
       beforeEach(function () {
-        this.date = new Date("11 August 2020");
+        this.date = new Date("11 August 2020 UTC");
 
         this.result = getSteamDbReleaseDate(riskOfRainHtmlDetailsSteamDb);
       });

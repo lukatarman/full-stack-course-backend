@@ -1,4 +1,4 @@
-import { JSDOM } from "jsdom";
+import { parseHTML } from "linkedom";
 import { PlayerHistory } from "../../../models/player.history.js";
 
 export function addPlayerHistoriesFromSteamcharts(gamesPagesMap) {
@@ -19,10 +19,8 @@ export function addPlayerHistoriesFromSteamcharts(gamesPagesMap) {
 }
 
 function parsePlayerHistory(pageHttpDetailsHtml) {
-  const dom = new JSDOM(pageHttpDetailsHtml);
-  const playerHistoryEntries = dom.window.document.querySelectorAll(
-    ".common-table tbody tr",
-  );
+  const { document } = parseHTML(pageHttpDetailsHtml);
+  const playerHistoryEntries = document.querySelectorAll(".common-table tbody tr");
 
   // Here, reverse is added so that the player history dates are put in the correct order. The dates of the "current players" array
   // will be displayed from oldest to newest. This means that pushing our own information on current players will stay consistent

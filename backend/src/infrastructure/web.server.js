@@ -1,5 +1,6 @@
 import Fastify from "fastify";
 import cors from "@fastify/cors";
+import fastifyHealthcheck from "fastify-healthcheck";
 
 export class WebServer {
   #server;
@@ -8,6 +9,7 @@ export class WebServer {
     this.#server = Fastify({ logger: _logger.config });
 
     this.#server.register(cors, gameQueriesRouter.routes);
+    this.#server.register(fastifyHealthcheck);
   }
 
   async start() {
