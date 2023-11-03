@@ -296,7 +296,7 @@ describe("runSync()", () => {
         await this.result;
       });
 
-      it("the expected error is catched", async function () {
+      it("the expected error is caught", async function () {
         await expectAsync(this.result).toBeResolved();
       });
 

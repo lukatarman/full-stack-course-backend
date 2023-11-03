@@ -66,7 +66,7 @@ export class Runner {
     );
     if (thrownErrorTypeIndex === -1) throw error;
     this.#logger.warn(
-      `runner catched an expected error from the function: '${method.name}', with the message: '${error.message}'`,
+      `runner caught an expected error from the function: '${method.name}', with the message: '${error.message}'`,
     );
   }
 
