@@ -232,96 +232,98 @@ describe("runner.js", () => {
       });
     });
   });
-});
 
-describe("runSync()", () => {
-  describe("runs two functions in a loop sequentially", () => {
-    describe("for one iteration", () => {
-      it("and calls each functions once", async () => {
-        const funcOneSpy = jasmine.createSpy("funcOneSpy");
-        const funcTwoSpy = jasmine.createSpy("funcTwoSpy");
-        const result = new Runner(createLoggerMock(), options()).runSync(
-          [{ method: funcOneSpy }, { method: funcTwoSpy }],
-          [],
-        );
+  describe("runSync()", () => {
+    describe("runs two functions in a loop sequentially", () => {
+      describe("for one iteration", () => {
+        it("and calls each functions once", async () => {
+          const funcOneSpy = jasmine.createSpy("funcOneSpy");
+          const funcTwoSpy = jasmine.createSpy("funcTwoSpy");
+          const result = new Runner(createLoggerMock(), options()).runSync(
+            [{ method: funcOneSpy }, { method: funcTwoSpy }],
+            [],
+          );
 
-        await expectAsync(result).toBeResolved();
-        expect(funcOneSpy).toHaveBeenCalledTimes(1);
-        expect(funcOneSpy).toHaveBeenCalledBefore(funcTwoSpy);
-        expect(funcTwoSpy).toHaveBeenCalledTimes(1);
+          await expectAsync(result).toBeResolved();
+          expect(funcOneSpy).toHaveBeenCalledTimes(1);
+          expect(funcOneSpy).toHaveBeenCalledBefore(funcTwoSpy);
+          expect(funcTwoSpy).toHaveBeenCalledTimes(1);
+        });
       });
-    });
 
-    describe("for two iterations", () => {
-      it("and calls the functions twice sequentially", async () => {
-        const funcOneSpy = jasmine.createSpy("funcOneSpy");
-        const funcTwoSpy = jasmine.createSpy("funcTwoSpy");
-        const result = new Runner(createLoggerMock(), options(delayMock, 2, 0)).runSync(
-          [{ method: funcOneSpy }, { method: funcTwoSpy }],
-          [],
-        );
+      describe("for two iterations", () => {
+        it("and calls the functions twice sequentially", async () => {
+          const funcOneSpy = jasmine.createSpy("funcOneSpy");
+          const funcTwoSpy = jasmine.createSpy("funcTwoSpy");
+          const result = new Runner(createLoggerMock(), options(delayMock, 2, 0)).runSync(
+            [{ method: funcOneSpy }, { method: funcTwoSpy }],
+            [],
+          );
 
-        await expectAsync(result).toBeResolved();
-        const funcOneSpyCalls = funcOneSpy.calls.all();
-        const funcTwoSpyCalls = funcTwoSpy.calls.all();
-        expect(
-          funcOneSpyCalls[0].invocationOrder <
+          await expectAsync(result).toBeResolved();
+          const funcOneSpyCalls = funcOneSpy.calls.all();
+          const funcTwoSpyCalls = funcTwoSpy.calls.all();
+          expect(
+            funcOneSpyCalls[0].invocationOrder <
+              funcTwoSpyCalls[0].invocationOrder <
+              funcOneSpyCalls[1].invocationOrder,
+          ).toBe(true);
+          expect(
             funcTwoSpyCalls[0].invocationOrder <
-            funcOneSpyCalls[1].invocationOrder,
-        ).toBe(true);
-        expect(
-          funcTwoSpyCalls[0].invocationOrder <
-            funcOneSpyCalls[1].invocationOrder <
-            funcTwoSpyCalls[1].invocationOrder,
-        ).toBe(true);
-        expect(funcOneSpy).toHaveBeenCalledTimes(2);
-        expect(funcTwoSpy).toHaveBeenCalledTimes(2);
-      });
-    });
-
-    describe("when one of two running functions throws an expected error,", function () {
-      let funcOneSpy;
-      let funcTwoSpy;
-      beforeEach(async function () {
-        funcOneSpy = jasmine.createSpy("funcOneSpy").and.throwError(new ExpectedError());
-        funcTwoSpy = jasmine.createSpy("funcTwoSpy");
-
-        this.logger = createLoggerMock();
-
-        this.result = new Runner(this.logger, options(delayMock, 2, 0)).runSync(
-          [{ method: funcOneSpy }, { method: funcTwoSpy }],
-          [ExpectedError],
-        );
-
-        await this.result;
+              funcOneSpyCalls[1].invocationOrder <
+              funcTwoSpyCalls[1].invocationOrder,
+          ).toBe(true);
+          expect(funcOneSpy).toHaveBeenCalledTimes(2);
+          expect(funcTwoSpy).toHaveBeenCalledTimes(2);
+        });
       });
 
-      it("the expected error is caught", async function () {
-        await expectAsync(this.result).toBeResolved();
-      });
+      describe("when one of two running functions throws an expected error,", function () {
+        let funcOneSpy;
+        let funcTwoSpy;
+        beforeEach(async function () {
+          funcOneSpy = jasmine
+            .createSpy("funcOneSpy")
+            .and.throwError(new ExpectedError());
+          funcTwoSpy = jasmine.createSpy("funcTwoSpy");
 
-      it("a warn message is logged", function () {
-        expect(this.logger.warn).toHaveBeenCalled();
-      });
+          this.logger = createLoggerMock();
 
-      it("funcOne and funcTwo are executed twice", function () {
-        expect(funcOneSpy).toHaveBeenCalledTimes(2);
-        expect(funcTwoSpy).toHaveBeenCalledTimes(2);
-      });
+          this.result = new Runner(this.logger, options(delayMock, 2, 0)).runSync(
+            [{ method: funcOneSpy }, { method: funcTwoSpy }],
+            [ExpectedError],
+          );
 
-      it("funcOne and funcTwo are executed in the right order", function () {
-        const funcOneSpyCalls = funcOneSpy.calls.all();
-        const funcTwoSpyCalls = funcTwoSpy.calls.all();
-        expect(
-          funcOneSpyCalls[0].invocationOrder <
+          await this.result;
+        });
+
+        it("the expected error is caught", async function () {
+          await expectAsync(this.result).toBeResolved();
+        });
+
+        it("a warn message is logged", function () {
+          expect(this.logger.warn).toHaveBeenCalled();
+        });
+
+        it("funcOne and funcTwo are executed twice", function () {
+          expect(funcOneSpy).toHaveBeenCalledTimes(2);
+          expect(funcTwoSpy).toHaveBeenCalledTimes(2);
+        });
+
+        it("funcOne and funcTwo are executed in the right order", function () {
+          const funcOneSpyCalls = funcOneSpy.calls.all();
+          const funcTwoSpyCalls = funcTwoSpy.calls.all();
+          expect(
+            funcOneSpyCalls[0].invocationOrder <
+              funcTwoSpyCalls[0].invocationOrder <
+              funcOneSpyCalls[1].invocationOrder,
+          ).toBe(true);
+          expect(
             funcTwoSpyCalls[0].invocationOrder <
-            funcOneSpyCalls[1].invocationOrder,
-        ).toBe(true);
-        expect(
-          funcTwoSpyCalls[0].invocationOrder <
-            funcOneSpyCalls[1].invocationOrder <
-            funcTwoSpyCalls[1].invocationOrder,
-        ).toBe(true);
+              funcOneSpyCalls[1].invocationOrder <
+              funcTwoSpyCalls[1].invocationOrder,
+          ).toBe(true);
+        });
       });
     });
   });
