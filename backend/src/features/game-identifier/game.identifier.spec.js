@@ -45,7 +45,7 @@ describe("game.identifier.js", function () {
         ).toHaveBeenCalledTimes(1);
       });
 
-      it("getSteamWebUntriedFilteredSteamApps was called with 'options.batchSize'", function () {
+      it("getSteamWebUntriedFilteredSteamApps was called with the correct batch size", function () {
         expect(
           this.steamAppsRepository.getSteamWebUntriedFilteredSteamApps,
         ).toHaveBeenCalledWith(options().features.options.batchSize);
@@ -113,7 +113,7 @@ describe("game.identifier.js", function () {
         ).toHaveBeenCalledTimes(1);
       });
 
-      it("getSteamWebUntriedFilteredSteamApps was called with 'options.batchSize'", function () {
+      it("getSteamWebUntriedFilteredSteamApps was called with the correct batch size", function () {
         expect(
           this.steamAppsRepository.getSteamWebUntriedFilteredSteamApps,
         ).toHaveBeenCalledWith(options().features.options.batchSize);
@@ -370,7 +370,7 @@ describe("game.identifier.js", function () {
         ).toHaveBeenCalledTimes(1);
       });
 
-      it("getSteamWebUntriedFilteredSteamApps was called with 'options.batchSize'", function () {
+      it("getSteamWebUntriedFilteredSteamApps was called with the correct batch size", function () {
         expect(
           this.steamAppsRepository.getSteamWebUntriedFilteredSteamApps,
         ).toHaveBeenCalledWith(options().features.options.batchSize);
@@ -469,7 +469,7 @@ describe("game.identifier.js", function () {
         ).toHaveBeenCalledTimes(1);
       });
 
-      it("getSteamchartsUntriedFilteredSteamApps was called with 'options.batchSize'", function () {
+      it("getSteamchartsUntriedFilteredSteamApps was called with the correct batch size", function () {
         expect(
           this.steamAppsRepository.getSteamchartsUntriedFilteredSteamApps,
         ).toHaveBeenCalledWith(options().features.options.batchSize);
@@ -546,7 +546,7 @@ describe("game.identifier.js", function () {
         ).toHaveBeenCalledTimes(1);
       });
 
-      it("getSteamchartsUntriedFilteredSteamApps was called with 'options.batchSize'", function () {
+      it("getSteamchartsUntriedFilteredSteamApps was called with the correct batch size", function () {
         expect(
           this.steamAppsRepository.getSteamchartsUntriedFilteredSteamApps,
         ).toHaveBeenCalledWith(options().features.options.batchSize);
@@ -678,7 +678,7 @@ describe("game.identifier.js", function () {
         ).toHaveBeenCalledTimes(1);
       });
 
-      it("getSteamchartsUntriedFilteredSteamApps was called with 'options.batchSize'", function () {
+      it("getSteamchartsUntriedFilteredSteamApps was called with the correct batch size", function () {
         expect(
           this.steamAppsRepository.getSteamchartsUntriedFilteredSteamApps,
         ).toHaveBeenCalledWith(options().features.options.batchSize);
@@ -783,7 +783,7 @@ describe(".updateGamesWithoutDetails.", function () {
       expect(this.gamesRepository.getGamesWithoutDetails).toHaveBeenCalledTimes(1);
     });
 
-    it("getGamesWithoutDetails was called with 'options.batchSize'", function () {
+    it("getGamesWithoutDetails was called with the correct batch size", function () {
       expect(this.gamesRepository.getGamesWithoutDetails).toHaveBeenCalledWith(
         options().features.options.batchSize,
       );
@@ -826,7 +826,7 @@ describe(".updateGamesWithoutDetails.", function () {
       expect(this.gamesRepository.getGamesWithoutDetails).toHaveBeenCalledTimes(1);
     });
 
-    it("getGamesWithoutDetails was called with 'options.batchSize'", function () {
+    it("getGamesWithoutDetails was called with the correct batch size", function () {
       expect(this.gamesRepository.getGamesWithoutDetails).toHaveBeenCalledWith(
         options(2).features.options.batchSize,
       );
