@@ -104,7 +104,7 @@ describe("SteamAppsAggregator", () => {
             steamAppsUpdateTimestampsRepositoryMock,
             steamAppsRepositoryMock,
             createLoggerMock(),
-            { runner: { options: { defaultIntervalDelay: 100 } } },
+            { features: { options: { updateIntervalDelay: 100 } } },
           );
 
           steamAppsDifference = SteamApp.diff(gamesMock, smallestGamesMock);
@@ -188,7 +188,7 @@ describe("SteamAppsAggregator", () => {
             steamAppsUpdateTimestampsRepositoryMock,
             steamAppsRepositoryMock,
             createLoggerMock(),
-            { runner: { options: { defaultIntervalDelay: 100 } } },
+            { features: { options: { updateIntervalDelay: 100 } } },
           );
 
           steamAppsDifference = SteamApp.diff(smallestGamesMock, smallestGamesMock);
@@ -263,7 +263,7 @@ describe("SteamAppsAggregator", () => {
           steamAppsUpdateTimestampsRepositoryMock,
           steamAppsRepositoryMock,
           createLoggerMock(),
-          { runner: { options: { defaultIntervalDelay: hoursToMs(12) } } },
+          { features: { options: { updateIntervalDelay: hoursToMs(12) } } },
         );
 
         await agg.collectSteamApps();
