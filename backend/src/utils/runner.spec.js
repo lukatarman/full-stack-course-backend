@@ -161,7 +161,7 @@ describe("runner.js", () => {
     describe("when one running function throws an expected error,", function () {
       beforeAll(function () {
         const expectedErrorThrower = async function () {
-          throw new ExpectedError("Expected error");
+          throw new ExpectedError();
         };
         this.logger = createLoggerMock();
 
@@ -192,7 +192,7 @@ describe("runner.js", () => {
         );
       });
 
-      it("the unexpected error rethrown", async function () {
+      it("the unexpected error is thrown", async function () {
         await expectAsync(this.result).toBeRejected();
       });
     });
