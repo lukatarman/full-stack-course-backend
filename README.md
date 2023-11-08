@@ -1,129 +1,73 @@
-# Steam Game Stats
+# Project and Course Description
 
-"Steam Game Stats" project monorepo. Frontend and backend readme files can be found in:
+## Table of Contents
 
-- [frontend/README.md](frontend/README.md)
-- [backend/README.md](backend/README.md)
+1. [Introduction](#introduction)
+1. [Course Content](#course-content)
+1. [Project Details](#project-details)
+1. [Development Setup](#development-setup)
+1. [Running the Application](#running-the-application)
+1. [Architecture](#architecture)
+
+## Introduction
+
+This repository contains the backend implementation of a proof of concept application which was developed by Luka Tarman during an intensive full stack web developer course. The purpose of this repository is to demonstrate the skillset of Luka Tarman to potential employers.
+
+A few words about the student. Luka Tarman is an adaptable and open minded Full Stack Software Developer with a preference for the backend layer. He started with software development due to his extensive experience with computers from a young age, and the fact that he finds great joy in solving technical problems. An up to date CV of Luka can be found here: [CV](https://docs.google.com/document/d/1koF3BsafLKzIdoWY6iUA0Oq-BxEqdRP4ZrKAQ16nwnA/edit?usp=sharing).
+
+A few words about the course instructor. The instructor is [Stanislav Jakuschevskij](https://www.linkedin.com/in/stanislav-jakuschevskij/). He is a Senior Software Engineer at IBM with a specialization in Blockchain. You can find out more about him on LinkedIn. In case a potential employer for Luka would like to ask questions about the course and Lukas programming education he or she can contact Stanislav via LinkedIn.
+
+At the time of this writing the application is in a running state and can be demonstrated. If you want to test the application read [Running the Application](#running-the-application) below. The development continues and new features are constantly introduced.
+
+## Course Content
+
+The course content is documented separately. Follow this [link](/docs/course.content.md) for more info.
+
+## Project Details
+
+The _Steam Game Stats_ application collects current and historic player numbers of all games available on the steam platform through the steam api and other online sources. The idea behind it is at some point to identify trending "niche" games which are gaining in popularity before they hit the mainstream channels. In its current iteration there is not yet a distinction between niche and mainstream games. But this feature will be added in the future.
+
+The backend is designed to run 24/7 and collect player numbers of games every day. It provides a REST API for the frontend.
+
+The frontend shows a list of top trending games with a search functionality for games and a detail view with all collected player numbers in a table.
 
 ## Development Setup
 
-For development and testing the application locally use the Docker Compose setup. Either connect to a MongoDB running in a container or to a remote MongoDB instance. See details below on how to do that.
+You need a code editor, Node.js and MongoDB installed.
 
-**Step 1.**, install:
-
-- [Node.js v18.17.x](https://nodejs.org/download/release/v18.17.1/).
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/).
-- [VSCode](https://code.visualstudio.com/) or any other code editor.
-- [MongoDB extension](https://www.mongodb.com/products/vs-code) to test your queries if you use VSCode.
-
-**Step 2.**:
-
-- check out code from this repo
-
-**Step 3.1**, local setup:
-
-- For the local db setup create a `local-db.env` in the root folder in the `config` directory:
-
-```bash
-# ./config/local-db.env
-DB_ENDPOINT="mongodb://mongodb:27017"
-DB_USERNAME="<local-db-username>"                # pick a username
-DB_PASSWORD="<local-db-password>"                # generate using: openssl rand -base64 16
-DB_NAME="<local-db-name>"                        # pick a db name
-DB_AUTH_ON="true"
-
-MONGO_INITDB_ROOT_USERNAME="root"
-MONGO_INITDB_ROOT_PASSWORD="<local-db-password>" # generate using: openssl rand -base64 16
-MONGO_INITDB_DATABASE="<local-db-name>"          # same as DB_NAME
-
-LOG_LEVEL="debug"
-
-FEATURES_BATCH_SIZE=5
-FEATURES_BATCH_DELAY=5000                        # ms
-FEATURES_UNIT_DELAY=800                          # ms
-FEATURES_CURRENT_PLAYERS_UPDATE_INTERVAL_DELAY=2 # h
-FEATURES_UPDATE_INTERVAL_DELAY=12                # h
-FEATURES_ITERATION_DELAY=5000                    # ms
-
-RUNNER_ITERATION_DELAY=5000                      # ms
-```
-
-**Step 3.2**, cloud setup:
-
-- create a free tier [MongoDB Atlas account](https://www.mongodb.com/cloud/atlas/register)
-- add your IP to the access list in the [MongoDB Atlas dashboard](https://cloud.mongodb.com)
-- get the connection uri from the same dashboad under `deployment > database`, then clicking the `connect` button and then `shell`, the uri should look something like this: `mongodb+srv://a-database-name.wml8hrs.mongodb.net/`
-- there is a small bug in MongoDB Atlas with the first user which is created when the account is created, so create a second user and use the second user to connect
-- store the password in a password manager upon creation of the user otherwise you have to overwrite it
-- get the username under `security > database access`
-- for the cloud db setup create a `cloud-db.env` in the root folder in the `config` directory:
-
-```bash
-# ./config/cloud-db.env
-DB_ENDPOINT="<cloud-db-endpoint>"                # set accordingly
-DB_USERNAME="<cloud-db-username>"                # set accordingly
-DB_PASSWORD="<cloud-db-password>"                # set accordingly
-DB_NAME="<cloud-db-name>"                        # set accordingly
-DB_AUTH_ON="true"
-
-MONGO_INITDB_ROOT_USERNAME="<unset>"             # not used but must have a value in cloud setup
-MONGO_INITDB_ROOT_PASSWORD="<unset>"             # not used but must have a value in cloud setup
-MONGO_INITDB_DATABASE="<unset>"                  # not used but must have a value in cloud setup
-
-LOG_LEVEL="debug"
-
-FEATURES_BATCH_SIZE=3
-FEATURES_BATCH_DELAY=30000                       # ms
-FEATURES_UNIT_DELAY=2000                         # ms
-FEATURES_CURRENT_PLAYERS_UPDATE_INTERVAL_DELAY=2 # h
-FEATURES_UPDATE_INTERVAL_DELAY=12                # h
-FEATURES_ITERATION_DELAY=30000                   # ms
-
-RUNNER_ITERATION_DELAY=30000                     # ms
-```
+- Install the current [Node.js](https://nodejs.org/en/) version.
+- Install [MongoDB](https://www.mongodb.com/try/download/community) community server.
+- If you use vscode add the [MongoDB extension](https://www.mongodb.com/products/vs-code) to test your queries.
+- Check out the backend code from this repo and the frontend from [here](https://github.com/lukatarman/steam-game-stats-frontend).
 
 ## Running the Application
 
-The application is packaged in containers using Docker Compose. The current setup contains the backend and the database. Adding the frontend to the setup is pending.
+You have to start the backend and frontend explicitly. The frontend depends on the backend. It won't display any game data if there is no running backend.
 
-There are two simple ways to start the containers:
-
-1. NPM Scripts
-1. VSCode Tasks
-
-### NPM Scripts
-
-Start application using the local db:
+The backend can run alone, it will then start collecting game data but it expects a running MongoDB instance. Depending on your operating system first start a MongoDB server instance. Then navigate into the `steam-game-stats-backend` directory and execute in the terminal:
 
 ```bash
-npm run start:backend:local-db
+npm start
 ```
 
-Start application using the cloud db:
+To run the backend tests execute:
 
 ```bash
-npm run start:backend:cloud-db
+npm test
 ```
 
-Stop the application (cloud or local):
+For the frontend navigate into the `steam-game-stats-frontend` directory and execute:
 
 ```bash
-npm stop
+npm start
 ```
 
-The rest api is exposed under [http://localhost:3000](http://localhost:3000).
+Open [http://localhost:8080](http://localhost:8080) in your browser and explore the UI.
 
-### VSCode Tasks
+## Architecture
 
-- open the "Show All Commands" search bar
-- type "`run task`" and hit enter
-- type "`Docker:`" and select start with local-db or cloud-db or stop
-- the task with `debug` in its name is used for the debugging configuration
+The application uses a 3-tier architecture.
 
-## Debugging
+Container diagram pending: [#91](https://github.com/lukatarman/steam-game-stats-backend/issues/91).
 
-The debugging configuration is only available for VSCode. You can debug the backend, unit tests and integration tests locally from the VSCode debugger menu by selecting one of the three configurations starting with "`Local: ...`".
-
-For debugging the application in the Docker container select the configuration starting with "`Docker: ...`". This configuration will rebuild the backend image, start the Docker Compose setup with Node.js in debug mode and attach itself to it so that you can set breakpoints in VSCode. When you are finished debugging detach the debugger and the configuration will stop and clean up the containers.
-
-The Docker debugging configuration uses the `local-db.env` file for the db setup. For more info on the debugging configuration check the `launch` and `tasks` sections in `.vscode/steam-game-stats.code-workspace`.
+Data model diagram pending: [#91](https://github.com/lukatarman/steam-game-stats-backend/issues/91).

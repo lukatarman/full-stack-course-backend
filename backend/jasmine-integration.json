@@ -1,9 +1,0 @@
-{
-  "spec_dir": "src/infrastructure",
-  "spec_files": ["**/*spec.js"],
-  "helpers": ["helpers/**/*.?(m)js"],
-  "env": {
-    "stopSpecOnExpectationFailure": false,
-    "random": false
-  }
-}
