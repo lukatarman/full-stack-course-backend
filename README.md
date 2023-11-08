@@ -103,6 +103,7 @@ BS
 BS
 BS
 BS
+BS
 
 ```bash
 npm start
@@ -122,3 +123,5 @@ The [new project](https://github.com/lukatarman/steam-game-stats) is developed u
 
   
 [Click here to check out the new repository](https://github.com/lukatarman/steam-game-stats)
+
+Both the frotend and backend repositories have been archived.
