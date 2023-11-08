@@ -49,12 +49,37 @@ BS
 BS
 BS
 BS
+BS
+BS
+BS
+BS
+BS
+BS
+BS
+BS
+BS
+BS
+BS
+BS
+BS
 
 ```bash
 npm start
 ```
 
 To run the backend tests execute:
+BS
+BS
+BS
+BS
+BS
+BS
+BS
+BS
+BS
+BS
+BS
+BS
 BS
 BS
 
@@ -65,9 +90,35 @@ npm test
 For the frontend navigate into the `steam-game-stats-frontend` directory and execute:
 BS
 BS
+BS
+BS
+BS
+BS
+BS
+BS
+BS
+BS
+BS
+BS
+BS
+BS
+BS
 
 ```bash
 npm start
 ```
 
 Open [http://localhost:8080](http://localhost:8080) in your browser and explore the UI.
+
+## Continued Development
+
+The application is still being worked on, and is becoming a product. 
+The [new project](https://github.com/lukatarman/steam-game-stats) is developed using:
+- a monorepository setup
+- Docker containers
+- cloud deployments
+- CD/CD pipeline with Github Actions
+- trunk based development with feature toggles.
+
+  
+[Click here to check out the new repository](https://github.com/lukatarman/steam-game-stats)
