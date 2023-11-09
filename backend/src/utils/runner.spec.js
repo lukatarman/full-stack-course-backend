@@ -332,13 +332,13 @@ describe("runner.js", () => {
 function options(
   delayFn = delayMock,
   iterations = 1,
-  defaultIterationDelay = undefined,
+  globalIterationDelay = undefined,
   syncOn = false,
 ) {
   return {
     delayFn,
     iterations,
-    defaultIterationDelay,
+    globalIterationDelay,
     syncOn,
   };
 }

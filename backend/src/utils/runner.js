@@ -2,7 +2,7 @@ import cloneDeep from "lodash.clonedeep";
 
 const defaultOptions = {
   delayFn: () => Promise.resolve(),
-  defaultIterationDelay: 5000,
+  globalIterationDelay: 5000,
   iterations: Number.POSITIVE_INFINITY,
   syncOn: false,
 };
@@ -18,8 +18,8 @@ export class Runner {
       options.iterations = Number.POSITIVE_INFINITY;
     }
 
-    if (options.defaultIterationDelay === undefined) {
-      options.defaultIterationDelay = 5000;
+    if (options.globalIterationDelay === undefined) {
+      options.globalIterationDelay = 5000;
     }
     this.#options = cloneDeep(options);
   }
@@ -46,7 +46,7 @@ export class Runner {
     // the first iterations in the loop compared to using a primitive. The tests of this
     // function rely on very short iteration times. If they are slowed down some tests are
     // failing unexpextedly. Don't refactor next two lines.
-    const iterationDelay = delay || this.#options.defaultIterationDelay;
+    const iterationDelay = delay || this.#options.globalIterationDelay;
 
     let iterations = this.#options.iterations;
     while (iterations--) {
@@ -87,8 +87,8 @@ export class Runner {
         this.#handleError(method, error, expectedErrorTypes);
       }
 
-      if (this.#options.defaultIterationDelay > 0)
-        await this.#options.delayFn(this.#options.defaultIterationDelay);
+      if (this.#options.globalIterationDelay > 0)
+        await this.#options.delayFn(this.#options.globalIterationDelay);
     }
   }
 }

@@ -35,7 +35,7 @@ export const config = {
   runner: {
     options: {
       delayFn: delay,
-      defaultIterationDelay: Number(process.env.RUNNER_DEFAULT_ITERATION_DELAY),
+      globalIterationDelay: Number(process.env.RUNNER_GLOBAL_ITERATION_DELAY),
     },
     expectedErrorTypes: [AxiosError],
   },
