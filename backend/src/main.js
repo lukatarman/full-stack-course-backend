@@ -38,7 +38,7 @@ async function main() {
     steamAppsUpdateTimestampRepository,
     steamAppsRepository,
     logger,
-    config,
+    config.features,
   );
   const gameIdentifier = new GameIdentifier(
     steamClient,
@@ -46,7 +46,7 @@ async function main() {
     gamesRepository,
     historyChecksRepository,
     logger,
-    config,
+    config.features,
   );
   const playerHistoryAggregator = new PlayerHistoryAggregator(
     steamClient,
@@ -54,7 +54,7 @@ async function main() {
     historyChecksRepository,
     playerHistoryRepository,
     logger,
-    config,
+    config.features,
   );
 
   // rest + web server
